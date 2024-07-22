@@ -8,7 +8,10 @@ test.beforeEach(async ({ page }) => {
   const assertionsValidation = new Assertions(page)
 
   // Login to the system as admin
-  await login.loginToSystems('https://pet-shop.buckhill.com.hr/login','admin@buckhill.co.uk','admin')
+  await login.navigateToURL('https://pet-shop.buckhill.com.hr/login')
+  await login.enterEmial('admin@buckhill.co.uk')
+  await login.enterPassword('admin')
+  await login.clickLoginButton()
   
   // Verify the page header
   await assertionsValidation.assertThePageHeader('p.text-h5 >> text=Dashboard','Dashboard')
