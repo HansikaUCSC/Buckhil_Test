@@ -1,7 +1,7 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test'
 export class Assertions {
-    private page: Page;
-    private statusCode: number;
+    private page: Page
+    private statusCode: number
     constructor(page) {
         this.page = page
     }

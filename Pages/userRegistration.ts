@@ -1,16 +1,16 @@
-import { Page } from '@playwright/test';
+import { Page } from '@playwright/test'
 export class RegisterUser {
-    private page: Page;
-    customerNavigation_menuOption: any;
-    addNewCustomer_button: any;
-    firstName_textbox: any;
-    lastName_textbox: any;
-    email_textbox: any;
-    phoneNumber_textbox: any;
-    location_textbox: any;
-    password_textbox: any;
-    confirmPassword_textbox: any;
-    addNewCustomer_popupButton: any;
+    private page: Page
+    customerNavigation_menuOption: any
+    addNewCustomer_button: any
+    firstName_textbox: any
+    lastName_textbox: any
+    email_textbox: any
+    phoneNumber_textbox: any
+    location_textbox: any
+    password_textbox: any
+    confirmPassword_textbox: any
+    addNewCustomer_popupButton: any
 
     constructor(page) {
         this.page = page

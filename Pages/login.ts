@@ -1,10 +1,10 @@
-import { Page } from '@playwright/test';
+import { Page } from '@playwright/test'
 export class LoginPage{
-    private page: Page;
+    private page: Page
     email_textbox: any
     password_textbox: any
     login_button: any
-    login_gridButton: any;
+    login_gridButton: any
 
     constructor(page){
         this.page = page

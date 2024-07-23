@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'
 import{LoginPage} from '../Pages/login'
 import{Assertions} from '../Asserssions/globalAsserssions'
-import { RegisterUser } from '../Pages/userRegistration';
+import { RegisterUser } from '../Pages/userRegistration'
 
 test.beforeEach(async ({ page }) => {
   const login = new LoginPage(page)
@@ -25,10 +25,10 @@ test('Create a new customer',async({page})=>{
   await assertionsValidation.captureResponseCode('https://pet-shop.buckhill.com.hr/api/v1/admin/user-listing?page=1&limit=5');
 
   // Navigate to the customer list
-  await userRegistration.navigateToCustomerList();
+  await userRegistration.navigateToCustomerList()
 
   // Wait for the network response to be captured
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('networkidle')
 
   // Verify the status code
   await assertionsValidation.assertTheResponseCode(200);
