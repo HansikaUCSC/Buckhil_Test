@@ -59,8 +59,8 @@ export class RegisterUser {
         await this.password_textbox.fill(password)
     }
     // Enter confirm password
-    async enterConfirmPassword(confimPassword) {
-        await this.confirmPassword_textbox.fill(confimPassword)
+    async enterConfirmPassword(password) {
+        await this.confirmPassword_textbox.fill(password)
     }
     // Click add Customer popup buton
     async clickAddCustomerButton() {
