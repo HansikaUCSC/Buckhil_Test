@@ -5,32 +5,54 @@ import { HomePage } from '../Pages/home'
 import { ProductDetailPage } from '../Pages/productDetails'
 import { cartPage } from '../Pages/cart'
 import { CheckoutPage } from '../Pages/checkout'
+import { readUserEmail } from '../Utils/dataUtils'
+import { CustomersPage } from '../Pages/cusomers'
+
+const productName = 'Advantage II Flea Treatment and Prevention for Small Cats'
 
 test.beforeEach(async ({ page }) => {
     const login = new LoginPage(page)
     const assertionsValidation = new Assertions(page)
+    const customer = new CustomersPage(page)
+    const home = new HomePage(page, productName)
+
+    // Login to the system as admin
+    await login.navigateToURL('https://pet-shop.buckhill.com.hr/login')
+    await login.enterEmial('admin@buckhill.co.uk')
+    await login.enterPassword('admin')
+    await login.clickLoginButton()
+
+    // Navigate to customer list page
+    await customer.navigateToCustomerList()
+    // Verify the page header
+    await assertionsValidation.assertThePageHeader('p.text-h5 >> text=Customers', 'Customers')
+    await customer.getUseremail()
+    // Logout as admin
+    await home.logout()
+})
+
+test('Place an order', async ({ page }) => {
+    
+    const home = new HomePage(page, productName)
+    const productDetails = new ProductDetailPage(page)
+    const cart = new cartPage(page)
+    const checkout = new CheckoutPage(page)
+    const login = new LoginPage(page)
+    const assertionsValidation = new Assertions(page)
+
+    // Read the user email from the file
+    const userEmail = await readUserEmail();
 
     // Login to the system as user
     await login.navigateToURL('https://pet-shop.buckhill.com.hr')
     await login.naviagateToLoginPopup()
-    await login.enterEmial('')
+    await login.enterEmial(userEmail)
     await login.enterPassword('userpassword')
     await login.clickLoginButton()
 
-    // Verify the page header
-    await assertionsValidation.assertThePageHeader('p.text-h5 >> text=Dashboard', 'Dashboard')
-})
-
-test('Place an order', async({page})=>{
-    const productName = 'Advantage II Flea Treatment and Prevention for Small Cats'
-    const home = new HomePage(page,productName)
-    const productDetails = new ProductDetailPage(page)
-    const cart = new cartPage(page)
-    const checkout = new CheckoutPage(page)
-
     // Add products to cart & proceed to checkout
     await home.productSearch(productName)
-    await productDetails.addToCart('1')
+    await productDetails.addToCart('2')
     await productDetails.navigateToCart()
     await cart.proceedToCheckout()
 
@@ -45,17 +67,18 @@ test('Place an order', async({page})=>{
     await checkout.enterCountryForShippingAddress('Canada')
     await checkout.clickUsesameAdCheckbox()
     await checkout.clickNextButton()
+    await page.pause()
 
     // Enter cash on delivery related information
     await checkout.selectPaymentMethod()
-    await checkout.codAd_FirstName_textbox('Gregory')
-    await checkout.codAd_LasttName_textbox('Fay')
-    await checkout.codAd_AdLine1_textbox('1479')
-    await checkout.codAd_AdLine2_textbox('amison Crossing Suite')
+    await checkout.enterFirstNameForCODAddress('Gregory')
+    await checkout.enterLastNameForCODAddress('Fay')
+    await checkout.enterAdLine1ForCODAddress('1479')
+    await checkout.enterAdLine2ForCODAddress('amison Crossing Suite')
+    await checkout.clickTermConditionCheckbox()
     await checkout.clickNextButton()
 
     // Confirm placing order
-    await checkout.clickTermConditionCheckbox()
     await checkout.clickPlaceOrderButton()
 })
 

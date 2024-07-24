@@ -7,15 +7,16 @@ export class ProductDetailPage{
 
     constructor(page){
         this.page = page
-        this.itemQuantity = page.locator('id = input-28')
+        this.itemQuantity = page.locator('[id = "input-38"]')
         this.addToCart_button = page.getByRole('button', { name: 'add to cart' })
-        this.cart_button = page.locator('input:has-text("Cart")')
+        this.cart_button = page.locator('button:has-text("CART")').nth(0)
     }
 
     // Add procuct to cart
     async addToCart(quantity){
-        await this.itemQuantity.press('ControlOrMeta+a').fill(quantity)
-        await this.addToCart_button.click
+        await this.itemQuantity.press('ControlOrMeta+a')
+        await this.itemQuantity.fill(quantity)
+        await this.addToCart_button.click()
     }
 
     // Navigate to cart
