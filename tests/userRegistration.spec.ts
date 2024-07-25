@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
-import{LoginPage} from '../Pages/login'
-import{Assertions} from '../Asserssions/globalAsserssions'
-import { RegisterUser } from '../Pages/userRegistration'
+import { LoginPage } from '../Pages/login'
+import { Assertions } from '../Asserssions/globalAsserssions'
+import { CustomersPage } from '../Pages/cusomers'
+import { Logout } from '../Pages/logout'
 
 // Definne variables
 const baseUrl = process.env.BASE_URL
@@ -21,24 +22,24 @@ test.beforeEach(async ({ page }) => {
   const assertionsValidation = new Assertions(page)
 
   // Login to the system as admin
-  await login.navigateToURL(baseUrl+'/login')
+  await login.navigateToURL(baseUrl + '/login')
   await login.enterEmial(adminEmail)
   await login.enterPassword(adminPassword)
   await login.clickLoginButton()
-  
+
   // Verify the page header
-  await assertionsValidation.assertThePageHeader(dashboardHeaderElement,dashboardHeaderText)
+  await assertionsValidation.assertThePageHeader(dashboardHeaderElement, dashboardHeaderText)
 })
 
-test('Create a new customer',async({page})=>{
-  const userRegistration = new RegisterUser(page)
+test('Create a new customer', async ({ page }) => {
+  const customer = new CustomersPage(page)
   const assertionsValidation = new Assertions(page)
 
   // Capture the response code for the navigation request
-  await assertionsValidation.captureResponseCode(baseUrl+'/api/v1/admin/user-listing?page=1&limit=5');
+  await assertionsValidation.captureResponseCode(baseUrl + '/api/v1/admin/user-listing?page=1&limit=5');
 
   // Navigate to the customer list
-  await userRegistration.navigateToCustomerList()
+  await customer.navigateToCustomerList()
 
   // Wait for the network response to be captured
   await page.waitForLoadState('networkidle')
@@ -47,19 +48,22 @@ test('Create a new customer',async({page})=>{
   await assertionsValidation.assertTheResponseCode(200);
 
   // Enter customer data for registration
-  await userRegistration.navigateToCreateCustomerPopup()
-  await userRegistration.enterFirstName(firstName)
-  await userRegistration.enterLastName(lasttName)
-  await userRegistration.enterEmail(email)
-  await userRegistration.enterPhoneNumber(phoneNumber)
-  await userRegistration.enterLocation(location)
-  await userRegistration.enterPassword(password)
-  await userRegistration.enterConfirmPassword(password)
+  await customer.navigateToCreateCustomerPopup()
+  await customer.enterFirstName(firstName)
+  await customer.enterLastName(lasttName)
+  await customer.enterEmail(email)
+  await customer.enterPhoneNumber(phoneNumber)
+  await customer.enterLocation(location)
+  await customer.enterPassword(password)
+  await customer.enterConfirmPassword(password)
 
   // Confirm the registration
-  await userRegistration.addNewCustomer_popupButton.click()
+  await customer.addNewCustomer_popupButton.click()
 })
 
 test.afterEach(async ({ page }) => {
+  const logout = new Logout(page)
+
+  await logout.logout()
   await page.close()
 })

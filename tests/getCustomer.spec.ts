@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../Pages/login'
 import { Assertions } from '../Asserssions/globalAsserssions'
 import { CustomersPage } from '../Pages/cusomers'
+import { Logout } from '../Pages/logout'
 
 // Definne variables
 const baseUrl = process.env.BASE_URL
@@ -36,5 +37,8 @@ test('Get customer email for customer login', async ({ page }) => {
 })
 
 test.afterEach(async ({ page }) => {
+    const logout = new Logout(page)
+
+    await logout.logout()
     await page.close()
 })

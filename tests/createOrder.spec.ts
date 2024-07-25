@@ -7,6 +7,7 @@ import { cartPage } from '../Pages/cart'
 import { CheckoutPage } from '../Pages/checkout'
 import { readUserEmail } from '../Utils/dataUtils'
 import { CustomersPage } from '../Pages/cusomers'
+import { Logout } from '../Pages/logout'
 
 // Definne variables
 const productName = process.env.PRODUCT_NAME
@@ -36,7 +37,7 @@ test.beforeEach(async ({ page }) => {
     const login = new LoginPage(page)
     const assertionsValidation = new Assertions(page)
     const customer = new CustomersPage(page)
-    const home = new HomePage(page, productName)
+    const logout = new Logout(page)
 
     // Login to the system as admin
     await login.navigateToURL(baseUrl + '/login')
@@ -53,7 +54,7 @@ test.beforeEach(async ({ page }) => {
     await assertionsValidation.assertThePageHeader(customersHeaderElement, customersdHeaderText)
     await customer.getUseremail()
     // Logout as admin
-    await home.logout()
+    await logout.logout()
 })
 
 test('Place an order', async ({ page }) => {
@@ -107,5 +108,8 @@ test('Place an order', async ({ page }) => {
 })
 
 test.afterEach(async ({ page }) => {
+    const logout = new Logout(page)
+
+    await logout.logout()
     await page.close()
 })
