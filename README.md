@@ -53,7 +53,9 @@ To run the tests, use the following command:
 ```bash
 npx playwright test
 ```
-Note: If the code is runing for the first time for the day run the 'getCustomer.spec.ts' test before 'createOder.spec.ts' test
+Note: 
+- If the code is runing for the first time for the day run the 'getCustomer.spec.ts' test before 'createOder.spec.ts' test
+- If user login failed, check whether that user email is works fine when login manually. If it doesn't work change the email element to a working element from line 28 in 'customers.ts' file. This happenes due to a bug in the system
 
 ### Generating Reports
 
