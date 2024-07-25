@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../Pages/login'
 import { Assertions } from '../Asserssions/globalAsserssions'
-import { CustomersPage } from '../Pages/cusomers'
+import { CustomersPage } from '../Pages/customers'
 import { Logout } from '../Pages/logout'
 
 // Definne variables
@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
 
   // Login to the system as admin
   await login.navigateToURL(baseUrl + '/login')
-  await login.enterEmial(adminEmail)
+  await login.enterEmail(adminEmail)
   await login.enterPassword(adminPassword)
   await login.clickLoginButton()
 

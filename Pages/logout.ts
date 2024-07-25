@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test'
+import { Assertions } from '../Asserssions/globalAsserssions'
 
 export class Logout{
     private page: Page
@@ -10,6 +11,7 @@ export class Logout{
 
     // Logout from the system
     async logout(){
+        await Assertions.assertPresenceOfTheElement(this.logout_button)
         await this.logout_button.click()
     }
 }

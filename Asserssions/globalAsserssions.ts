@@ -9,6 +9,11 @@ export class Assertions {
     async assertThePageHeader(headerElement, headerText) {
         await expect(this.page.locator(headerElement)).toHaveText(headerText)
     }
+    // Verify the presence of the Element
+    static async assertPresenceOfTheElement(element) {
+        await expect(element).toBeVisible()
+    }
+
     // Set up an event listener to capture the response code
     async captureResponseCode(url) {
         this.page.on('response', response => {

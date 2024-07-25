@@ -53,6 +53,7 @@ To run the tests, use the following command:
 ```bash
 npx playwright test
 ```
+Note: If the code is runing for the first time for the day run the 'getCustomer.spec.ts' test before 'createOder.spec.ts' test
 
 ### Generating Reports
 
@@ -79,3 +80,11 @@ After running the tests, you can view the Playwright report by opening the playw
 - Utils: Contains utility functions.
 
     - dataUtils.ts: Utility functions for data handling.
+
+- bugs: Contains the identified issues.
+
+    - Screenshots: Screenshots related to the reported bugs
+
+### Additional Info
+
+- 

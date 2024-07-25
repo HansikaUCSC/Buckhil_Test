@@ -6,20 +6,13 @@ import { ProductDetailPage } from '../Pages/productDetails'
 import { cartPage } from '../Pages/cart'
 import { CheckoutPage } from '../Pages/checkout'
 import { readUserEmail } from '../Utils/dataUtils'
-import { CustomersPage } from '../Pages/cusomers'
+import { CustomersPage } from '../Pages/customers'
 import { Logout } from '../Pages/logout'
 
 // Definne variables
 const productName = process.env.PRODUCT_NAME
 const baseUrl = process.env.BASE_URL
-const adminEmail = process.env.ADMIN_EMAIL
-const adminPassword = process.env.ADMIN_PASSWORD
-const filterKeyword = process.env.CUSTOMER_FILTER_KEYWORD
 const userPassword = process.env.USER_PASSWORD
-const dashboardHeaderElement = process.env.DASHBORD_HEADER_ELEMENT
-const dashboardHeaderText = process.env.DASHBORD_HEADER_TEXT
-const customersHeaderElement = process.env.CUSTOMERS_HEADER_ELEMENT
-const customersdHeaderText = process.env.CUSTOMERS_HEADER_TEXT
 const productQuantity = process.env.PRODUCT_QUANTITY
 const shippingAdrFirstName = process.env.SHIPPING_ADR_FNAME
 const shippingAdrLastName = process.env.SHIPPING_ADR_LNAME
@@ -36,30 +29,16 @@ const cashOnDelAdrLine2 = process.env.COD_ADR_LINE2
 
 test.beforeEach(async ({ page }) => {
     const login = new LoginPage(page)
-    const assertionsValidation = new Assertions(page)
-    const customer = new CustomersPage(page)
-    const logout = new Logout(page)
 
-    // Login to the system as admin
-    await login.navigateToURL(baseUrl + '/login')
-    await login.enterEmial(adminEmail)
-    await login.enterPassword(adminPassword)
+    // Read the user email from the file
+    const userEmail = await readUserEmail();
+
+    // Login to the system as user
+    await login.navigateToURL(baseUrl)
+    await login.naviagateToLoginPopup()
+    await login.enterEmail(userEmail)
+    await login.enterPassword(userPassword)
     await login.clickLoginButton()
-
-    // Verify the page header
-    await assertionsValidation.assertThePageHeader(dashboardHeaderElement,dashboardHeaderText)
-    
-    // Navigate to customer list page
-    await customer.navigateToCustomerList()
-    // Verify the page header
-    await assertionsValidation.assertThePageHeader(customersHeaderElement, customersdHeaderText)
-
-    // Filter for customers
-    await customer.filterCustomers(filterKeyword)
-
-    await customer.getUseremail()
-    // Logout as admin
-    await logout.logout()
 })
 
 test('Place an order', async ({ page }) => {
@@ -68,18 +47,6 @@ test('Place an order', async ({ page }) => {
     const productDetails = new ProductDetailPage(page)
     const cart = new cartPage(page)
     const checkout = new CheckoutPage(page)
-    const login = new LoginPage(page)
-
-    // Read the user email from the file
-    const userEmail = await readUserEmail();
-
-    // Login to the system as user
-    await login.navigateToURL(baseUrl)
-    await login.naviagateToLoginPopup()
-    await login.enterEmial(userEmail)
-    await login.enterPassword(userPassword)
-    await login.clickLoginButton()
-
 
     // Add products to cart & proceed to checkout
     await home.productSearch(productName)
@@ -107,6 +74,7 @@ test('Place an order', async ({ page }) => {
     await checkout.enterAdLine2ForCODAddress(cashOnDelAdrLine2)
     await checkout.clickTermConditionCheckbox()
     await checkout.clickNextButton()
+    await page.pause()
 
     // Confirm placing order
     await checkout.clickPlaceOrderButton()

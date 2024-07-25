@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test'
+import { Assertions } from '../Asserssions/globalAsserssions'
 export class HomePage{
     private page: Page
     search_textbox: any
@@ -13,8 +14,10 @@ export class HomePage{
     }
     // Search for a product
     async productSearch(productName){
+        await Assertions.assertPresenceOfTheElement(this.search_textbox)
         await this.search_textbox.fill(productName)
         await this.search_textbox.press('Enter')
+        await Assertions.assertPresenceOfTheElement(this.searchResult_dropdownOPtion)
         await this.searchResult_dropdownOPtion.click()
     }
 }

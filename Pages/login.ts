@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test'
+import { Assertions } from '../Asserssions/globalAsserssions'
 export class LoginPage{
     private page: Page
     email_textbox: any
@@ -20,21 +21,25 @@ export class LoginPage{
 
     // Navigate to login popup
     async naviagateToLoginPopup(){
+        await Assertions.assertPresenceOfTheElement(this.login_gridButton)
         await this.login_gridButton.click()
     }
 
     // Enter email
-    async enterEmial(email){
+    async enterEmail(email){
+        await Assertions.assertPresenceOfTheElement(this.email_textbox)
         await this.email_textbox.fill(email)
     }
 
     // Enter password
     async enterPassword(password){
+        await Assertions.assertPresenceOfTheElement(this.password_textbox)
         await this.password_textbox.fill(password)
     }
 
     //clik on the Login button
     async clickLoginButton(){
+        await Assertions.assertPresenceOfTheElement(this.login_button)
         await this.login_button.click()
     }
 }

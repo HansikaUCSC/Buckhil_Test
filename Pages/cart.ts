@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { Assertions } from "../Asserssions/globalAsserssions"
 export class cartPage{
     private page: Page
     proceedToCheckout_button: any
@@ -10,6 +11,7 @@ export class cartPage{
 
     // Go to checkout
     async proceedToCheckout(){
+        await Assertions.assertPresenceOfTheElement(this.proceedToCheckout_button)
         await this.proceedToCheckout_button.click()
     }
 }
