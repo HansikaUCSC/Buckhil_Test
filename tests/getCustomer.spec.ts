@@ -8,6 +8,7 @@ import { Logout } from '../Pages/logout'
 const baseUrl = process.env.BASE_URL
 const adminEmail = process.env.ADMIN_EMAIL
 const adminPassword = process.env.ADMIN_PASSWORD
+const filterKeyword = process.env.CUSTOMER_FILTER_KEYWORD
 const dashboardHeaderElement = process.env.DASHBORD_HEADER_ELEMENT
 const dashboardHeaderText = process.env.DASHBORD_HEADER_TEXT
 const customersHeaderElement = process.env.CUSTOMERS_HEADER_ELEMENT
@@ -25,6 +26,7 @@ test.beforeEach(async ({ page }) => {
 
     // Verify the page header
     await assertionsValidation.assertThePageHeader(dashboardHeaderElement, dashboardHeaderText)
+    
 })
 
 test('Get customer email for customer login', async ({ page }) => {
@@ -33,6 +35,8 @@ test('Get customer email for customer login', async ({ page }) => {
     await customer.navigateToCustomerList()
     // Verify the page header
     await assertionsValidation.assertThePageHeader(customersHeaderElement, customersdHeaderText)
+    // Filter for customers
+    await customer.filterCustomers(filterKeyword)
     await customer.getUseremail()
 })
 
