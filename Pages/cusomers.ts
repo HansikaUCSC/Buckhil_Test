@@ -14,11 +14,15 @@ export class CustomersPage {
     password_textbox: any
     confirmPassword_textbox: any
     addNewCustomer_popupButton: any
-
+    filter_Arorow: any
+    filter_customerEmail_textbox: any
+    
     constructor(page) {
         this.page = page
         this.customerNavigation_menuOption = page.getByRole('link', { name: 'Customers' })
-        this.customerEmail_lable = page.locator('//tr[@data-v-90b5599e][5]/td[2]')
+        this.filter_Arorow = page.getByTestId('filters-control').locator('i')
+        this.filter_customerEmail_textbox = page.getByLabel('Customer Email')
+        this.customerEmail_lable = page.locator('//tr[@data-v-90b5599e][1]/td[2]')
         this.addNewCustomer_button = page.getByRole('button', { name: 'add new customer' })
         this.firstName_textbox = page.getByLabel('First Name')
         this.lastName_textbox = page.getByLabel('Last Name')
@@ -33,6 +37,13 @@ export class CustomersPage {
     // Navigate to customer list page
     async navigateToCustomerList() {
         await this.customerNavigation_menuOption.click()
+    }
+    // Filter the customer list
+    async filterCustomers(filterKeyword){
+        await this.filter_Arorow.click()
+        await this.filter_customerEmail_textbox.fill(filterKeyword)
+        await this.filter_customerEmail_textbox.press('Enter')
+        await this.filter_Arorow.click()
     }
 
     // get a user email

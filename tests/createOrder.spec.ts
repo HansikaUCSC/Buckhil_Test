@@ -14,6 +14,7 @@ const productName = process.env.PRODUCT_NAME
 const baseUrl = process.env.BASE_URL
 const adminEmail = process.env.ADMIN_EMAIL
 const adminPassword = process.env.ADMIN_PASSWORD
+const filterKeyword = process.env.CUSTOMER_FILTER_KEYWORD
 const userPassword = process.env.USER_PASSWORD
 const dashboardHeaderElement = process.env.DASHBORD_HEADER_ELEMENT
 const dashboardHeaderText = process.env.DASHBORD_HEADER_TEXT
@@ -52,6 +53,10 @@ test.beforeEach(async ({ page }) => {
     await customer.navigateToCustomerList()
     // Verify the page header
     await assertionsValidation.assertThePageHeader(customersHeaderElement, customersdHeaderText)
+
+    // Filter for customers
+    await customer.filterCustomers(filterKeyword)
+
     await customer.getUseremail()
     // Logout as admin
     await logout.logout()
@@ -75,6 +80,7 @@ test('Place an order', async ({ page }) => {
     await login.enterPassword(userPassword)
     await login.clickLoginButton()
 
+
     // Add products to cart & proceed to checkout
     await home.productSearch(productName)
     await productDetails.addToCart(productQuantity)
@@ -92,7 +98,6 @@ test('Place an order', async ({ page }) => {
     await checkout.enterCountryForShippingAddress(shippingAdrCountry)
     await checkout.clickUsesameAdCheckbox()
     await checkout.clickNextButton()
-    await page.pause()
 
     // Enter cash on delivery related information
     await checkout.selectPaymentMethod()

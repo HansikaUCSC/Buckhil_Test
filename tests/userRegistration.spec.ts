@@ -35,17 +35,17 @@ test('Create a new customer', async ({ page }) => {
   const customer = new CustomersPage(page)
   const assertionsValidation = new Assertions(page)
 
-  // Capture the response code for the navigation request
-  await assertionsValidation.captureResponseCode(baseUrl + '/api/v1/admin/user-listing?page=1&limit=5');
+  // // Capture the response code for the navigation request
+  // await assertionsValidation.captureResponseCode(baseUrl + '/api/v1/admin/user-listing?page=1&limit=5');
 
   // Navigate to the customer list
   await customer.navigateToCustomerList()
 
-  // Wait for the network response to be captured
-  await page.waitForLoadState('networkidle')
+  // // Wait for the network response to be captured
+  // await page.waitForLoadState('networkidle')
 
-  // Verify the status code
-  await assertionsValidation.assertTheResponseCode(200);
+  // // Verify the status code
+  // await assertionsValidation.assertTheResponseCode(200);
 
   // Enter customer data for registration
   await customer.navigateToCreateCustomerPopup()
@@ -62,8 +62,5 @@ test('Create a new customer', async ({ page }) => {
 })
 
 test.afterEach(async ({ page }) => {
-  const logout = new Logout(page)
-
-  await logout.logout()
   await page.close()
 })

@@ -14,6 +14,7 @@ export class Assertions {
         this.page.on('response', response => {
             if (response.url() === url) {
                 this.statusCode = response.status();
+                console.log(this.statusCode)
             }
         });
     }
